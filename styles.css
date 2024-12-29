@@ -1,0 +1,110 @@
+body {
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.content {
+    flex: 1;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+    width: calc(100% - 300px); /* Sidebar width is 300px */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns of equal width */
+    grid-auto-rows: 280px; /* All rows have the same height */
+    gap: 30px;
+    justify-items: center;
+    align-items: center;
+    background-color: white;
+}
+
+.grid-column {
+    width: 100%; /* Fill the grid cell */
+    height: 100%; /* Match grid-template row height */
+    overflow: hidden; /* Crop overflowing content */
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content to the top */
+    text-align: center;
+    background-color: #f8f8f8;
+    padding: 0; /* Remove padding to enforce strict sizing */
+    box-sizing: border-box;
+}
+
+.grid-column img {
+    width: 100%; /* Stretch to fill the container */
+    height: 100%; /* Stretch to the height of the grid cell */
+    object-fit: cover; /* Crop image to fit without distortion */
+    margin: 0; /* Remove unwanted spacing */
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+    filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+}
+
+
+.sidebar {
+    width: 300px;
+    background-color: #ddd;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: -3px 0 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+/* Apply a halftone effect to all jpg images */
+img {
+    filter: grayscale(100%) contrast(2);
+    background: repeating-radial-gradient(
+        circle at 0 0,
+        black 0,
+        black 1px,
+        white 1px,
+        white 2px
+    );
+    -webkit-mask-image: repeating-radial-gradient(
+        circle at 0 0,
+        black 0,
+        black 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    mask-image: repeating-radial-gradient(
+        circle at 0 0,
+        black 0,
+        black 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    mask-composite: intersect;
+    -webkit-mask-composite: destination-in;
+}
+
+/* Invert color on hover */
+img:hover {
+    filter: grayscale(100%) invert(100%);
+}
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folder Structure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        li {
+            cursor: pointer;
+            margin: 5px 0;
+        }
+        li::before {
+            content: '📁 ';
+        }
+        li.file::before {
+            content: '📄 ';
+        }
+        .nested {
+            display: none;
+        }
+        .open > .nested {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li onclick="toggle(this)">JPGs
+            <ul class="nested">
+                <li class="file">Image1.jpg</li>
+                <li class="file">Image2.jpg</li>
+            </ul>
+        </li>
+        <li onclick="toggle(this)">Social Media
+            <ul class="nested">
+                <li class="file">Twitter</li>
+                <li class="file">Instagram</li>
+            </ul>
+        </li>
+        <li onclick="toggle(this)">Websites
+            <ul class="nested">
+                <li class="file">Portfolio</li>
+                <li class="file">Blog</li>
+            </ul>
+        </li>
+        <li onclick="toggle(this)">PDFs
+            <ul class="nested">
+                <li class="file">Report1.pdf</li>
+                <li class="file">Report2.pdf</li>
+            </ul>
+        </li>
+        <li onclick="toggle(this)">Web Artefacts
+            <ul class="nested">
+                <li class="file">Artefact1</li>
+                <li class="file">Artefact2</li>
+            </ul>
+        </li>
+    </ul>
+
+    <script>
+        function toggle(element) {
+            element.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
