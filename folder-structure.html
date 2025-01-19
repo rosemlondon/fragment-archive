@@ -3,73 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Folder Structure</title>
+    <title>Folder Tree</title>
+    <link rel="stylesheet" href="lib/jquery-treeview/jquery.treeview.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery CDN -->
+    <script src="lib/jquery-treeview/jquery.treeview.js"></script>
+    <script>
+        $(document).ready(function () {
+            const rootFolder = "/index.html"; // Adjust to the root path of your nested structure
+    
+            // Define a function to fetch nested folder data (simulate it here)
+            const generateTreeData = () => {
+                // Simulate fetching folder and file data dynamically
+                return [
+                    {
+                        folder: "Web Artefacts",
+                        link: "/web-artefacts.html",
+                        children: [
+                            { folder: "Nested Folder 1", link: "/web-artefacts/nested1.html" },
+                            { folder: "Nested Folder 2", link: "/web-artefacts/nested2.html" },
+                        ],
+                    },
+                    {
+                        folder: "JPGs",
+                        link: "/jpgs.html",
+                        children: [
+                            { folder: "JPG File 1", link: "/jpgs/file1.html" },
+                            { folder: "JPG File 2", link: "/jpgs/file2.html" },
+                        ],
+                    },
+                    {
+                        folder: "Social Media",
+                        link: "/socmed.html",
+                        children: [
+                            { folder: "socmed File 1", link: "/jpgs/file1.html" },
+                            { folder: "socmed File 2", link: "/jpgs/file2.html" },
+                        ],
+                    },
+                ];
+            };
+    
+            // Recursively create nested treeview structure
+            const createTreeHTML = (data) => {
+                return data
+                    .map(
+                        (item) => `
+                            <li>
+                                <span class="folder">${item.folder}</span>
+                                <ul>
+                                    ${item.children ? createTreeHTML(item.children) : ""}
+                                    <li><a href="${item.link}" target="_parent">${item.folder}</a></li>
+                                </ul>
+                            </li>
+                        `
+                    )
+                    .join("");
+            };
+    
+            // Fetch tree data and generate HTML
+            const treeData = generateTreeData();
+            const treeHTML = createTreeHTML(treeData);
+    
+            // Inject generated HTML into the treeview container
+            $("#browser").html(treeHTML).treeview({
+                collapsed: true, // Ensures all nodes are collapsed by default
+                animated: "medium", // Optional: Adds animation to expand/collapse
+                control: "#treecontrol" // Optional: If you have a control panel for expand/collapse all
+    });
+});
+    </script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 10px;
+            padding: 0;
         }
-        ul {
-            list-style: none;
-            padding-left: 20px;
-        }
-        li {
-            cursor: pointer;
-            margin: 5px 0;
-        }
-        li::before {
-            content: '📁 ';
-        }
-        li.file::before {
-            content: '📄 ';
-        }
-        .nested {
-            display: none;
-        }
-        .open > .nested {
-            display: block;
+        .treeview {
+            margin: 10px;
         }
     </style>
 </head>
 <body>
-    <ul>
-        <li onclick="toggle(this)">JPGs
-            <ul class="nested">
-                <li class="file">Image1.jpg</li>
-                <li class="file">Image2.jpg</li>
+    <ul id="browser" class="filetree">
+        <li><span class="folder">Folder 1</span>
+            <ul>
+                <li><span class="file">File 1.1</span></li>
+                <li><span class="file">File 1.2</span></li>
             </ul>
         </li>
-        <li onclick="toggle(this)">Social Media
-            <ul class="nested">
-                <li class="file">Twitter</li>
-                <li class="file">Instagram</li>
-            </ul>
-        </li>
-        <li onclick="toggle(this)">Websites
-            <ul class="nested">
-                <li class="file">Portfolio</li>
-                <li class="file">Blog</li>
-            </ul>
-        </li>
-        <li onclick="toggle(this)">PDFs
-            <ul class="nested">
-                <li class="file">Report1.pdf</li>
-                <li class="file">Report2.pdf</li>
-            </ul>
-        </li>
-        <li onclick="toggle(this)">Web Artefacts
-            <ul class="nested">
-                <li class="file">Artefact1</li>
-                <li class="file">Artefact2</li>
+        <li><span class="folder">Folder 2</span>
+            <ul>
+                <li><span class="file">File 2.1</span></li>
+                <li><span class="file">File 2.2</span></li>
             </ul>
         </li>
     </ul>
-
     <script>
-        function toggle(element) {
-            element.classList.toggle('open');
-        }
+        $(document).ready(function() {
+            collapsed: true,
+            $("#browser").treeview(); // Initialize treeview
+        });
     </script>
 </body>
 </html>

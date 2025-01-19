@@ -7,104 +7,85 @@ body {
     overflow: hidden;
 }
 
+ul.breadcrumb li {
+    display: inline;
+    font-size: 18px;
+  }
+
+  ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+  }
+
+/* Main container for sidebar and content */
 .container {
     display: flex;
-    flex-direction: row;
-    height: 100%;
+    flex-direction: row; /* Align sidebar and content side-by-side */
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full width of the page */
 }
 
+/* Content area */
 .content {
-    flex: 1;
+    flex: 1; /* Take up remaining space next to the sidebar */
     background-color: #fff;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Allow vertical stacking in content */
     padding: 20px;
-    overflow-y: auto;
-    width: calc(100% - 300px); /* Sidebar width is 300px */
+    overflow-y: auto; /* Scroll if content exceeds height */
 }
 
+/* Sidebar */
+.sidebar {
+    width: 300px; /* Fixed width */
+    background-color: #f4f4f4; /* Light background color for sidebar */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+    padding: 20px; /* Internal spacing */
+    overflow-y: auto; /* Allow scrolling in sidebar if content is tall */
+}
+
+/* General grid container styling */
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns of equal width */
-    grid-auto-rows: 280px; /* All rows have the same height */
-    gap: 30px;
-    justify-items: center;
-    align-items: center;
-    background-color: white;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
+    gap: 16px; /* Spacing between grid items */
+    width: 100%; /* Full-width container */
 }
 
+/* Grid items styling */
 .grid-column {
-    width: 100%; /* Fill the grid cell */
-    height: 100%; /* Match grid-template row height */
-    overflow: hidden; /* Crop overflowing content */
-    border: 1px solid #ccc;
+    position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack image and title vertically */
     justify-content: flex-start; /* Align content to the top */
-    text-align: center;
-    background-color: #f8f8f8;
-    padding: 0; /* Remove padding to enforce strict sizing */
+    align-items: center; /* Center content horizontally */
+    overflow: hidden; /* Prevent content overflow */
+    background-color: #f8f8f8; /* Background for consistency */
+    border: 1px solid #ccc;
     box-sizing: border-box;
+    height: 300px; /* Fixed height for all items */
 }
 
+/* Image container */
 .grid-column img {
-    width: 100%; /* Stretch to fill the container */
-    height: 100%; /* Stretch to the height of the grid cell */
-    object-fit: cover; /* Crop image to fit without distortion */
-    margin: 0; /* Remove unwanted spacing */
-    filter: gray; /* IE6-9 */
-    -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
-    filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
-}
-
-
-.sidebar {
-    width: 300px;
-    background-color: #ddd;
-    height: 100vh;
-    padding: 20px;
-    box-shadow: -3px 0 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    overflow-y: auto;
-}
-
-.title {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-/* Apply a halftone effect to all jpg images */
-img {
-    filter: grayscale(100%) contrast(2);
-    background: repeating-radial-gradient(
-        circle at 0 0,
-        black 0,
-        black 1px,
-        white 1px,
-        white 2px
-    );
-    -webkit-mask-image: repeating-radial-gradient(
-        circle at 0 0,
-        black 0,
-        black 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    mask-image: repeating-radial-gradient(
-        circle at 0 0,
-        black 0,
-        black 1px,
-        transparent 1px,
-        transparent 2px
-    );
-    mask-composite: intersect;
-    -webkit-mask-composite: destination-in;
+    width: 100%; /* Fill the width of the container */
+    height: calc(100% - 40px); /* Deduct space for the title (adjust 40px as needed) */
+    object-fit: cover; /* Crop image while preserving aspect ratio */
+    flex-shrink: 0; /* Prevent image from shrinking */
+    display: block; /* Remove inline spacing issues */
+    margin: 0; /* Remove unwanted margins */
+    filter: grayscale();
 }
 
 /* Invert color on hover */
 img:hover {
-    filter: grayscale(100%) invert(100%);
+    filter: grayscale(100%) invert(100%) contrast(30%);
 }
 
+.folder-tree {
+    width: 100%; /* Fit iframe to the sidebar's width */
+    height: 100%; /* Make it fill the sidebar height */
+    border: none; /* Remove iframe border */
+    overflow-y: auto; /* Allow scrolling inside the iframe */
+}
