@@ -5,73 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Folder Tree</title>
     <link rel="stylesheet" href="lib/jquery-treeview/jquery.treeview.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="lib/jquery-treeview/jquery.treeview.js"></script>
-    <script>
-        $(document).ready(function () {
-            const rootFolder = "/index.html"; // Adjust to the root path of your nested structure
-    
-            // Define a function to fetch nested folder data (simulate it here)
-            const generateTreeData = () => {
-                // Simulate fetching folder and file data dynamically
-                return [
-                    {
-                        folder: "Web Artefacts",
-                        link: "/web-artefacts.html",
-                        children: [
-                            { folder: "Nested Folder 1", link: "/web-artefacts/nested1.html" },
-                            { folder: "Nested Folder 2", link: "/web-artefacts/nested2.html" },
-                        ],
-                    },
-                    {
-                        folder: "JPGs",
-                        link: "/jpgs.html",
-                        children: [
-                            { folder: "JPG File 1", link: "/jpgs/file1.html" },
-                            { folder: "JPG File 2", link: "/jpgs/file2.html" },
-                        ],
-                    },
-                    {
-                        folder: "Social Media",
-                        link: "/socmed.html",
-                        children: [
-                            { folder: "socmed File 1", link: "/jpgs/file1.html" },
-                            { folder: "socmed File 2", link: "/jpgs/file2.html" },
-                        ],
-                    },
-                ];
-            };
-    
-            // Recursively create nested treeview structure
-            const createTreeHTML = (data) => {
-                return data
-                    .map(
-                        (item) => `
-                            <li>
-                                <span class="folder">${item.folder}</span>
-                                <ul>
-                                    ${item.children ? createTreeHTML(item.children) : ""}
-                                    <li><a href="${item.link}" target="_parent">${item.folder}</a></li>
-                                </ul>
-                            </li>
-                        `
-                    )
-                    .join("");
-            };
-    
-            // Fetch tree data and generate HTML
-            const treeData = generateTreeData();
-            const treeHTML = createTreeHTML(treeData);
-    
-            // Inject generated HTML into the treeview container
-            $("#browser").html(treeHTML).treeview({
-                collapsed: true, // Ensures all nodes are collapsed by default
-                animated: "medium", // Optional: Adds animation to expand/collapse
-                control: "#treecontrol" // Optional: If you have a control panel for expand/collapse all
-    });
-});
-    </script>
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -81,28 +16,64 @@
         .treeview {
             margin: 10px;
         }
+        .folder-icon {
+            background: url('images/folder.png') no-repeat left center;
+            padding-left: 20px;
+        }
+        .file-icon {
+            background: url('icons/file-icon.png') no-repeat left center;
+            padding-left: 20px;
+        }
     </style>
+<script>
+    $(document).ready(function () {
+    // Fetch site structure from a JSON file
+    const fetchTreeData = async () => {
+        try {
+            const response = await fetch('/site-structure.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Failed to fetch site structure:', error);
+            return [];
+        }
+    };
+
+    // Recursively generate treeview HTML
+    const createTreeHTML = (data) => {
+        return data
+            .map(
+                (item) => `
+                    <li>
+                        <span class="folder-icon">${item.title}</span>
+                        <ul>
+                            ${
+                                item.children
+                                    ? createTreeHTML(item.children)
+                                    : `<li><a class="file-icon" href="${item.url}" target="_parent">${item.title}</a></li>`
+                            }
+                        </ul>
+                    </li>
+                `
+            )
+            .join('');
+    };
+
+    // Fetch and render the tree
+    fetchTreeData().then((treeData) => {
+        const treeHTML = createTreeHTML(treeData);
+        $("#browser").html(treeHTML).treeview({
+            collapsed: true,
+            animated: "medium"
+        });
+    });
+});
+
+</script>
 </head>
 <body>
-    <ul id="browser" class="filetree">
-        <li><span class="folder">Folder 1</span>
-            <ul>
-                <li><span class="file">File 1.1</span></li>
-                <li><span class="file">File 1.2</span></li>
-            </ul>
-        </li>
-        <li><span class="folder">Folder 2</span>
-            <ul>
-                <li><span class="file">File 2.1</span></li>
-                <li><span class="file">File 2.2</span></li>
-            </ul>
-        </li>
-    </ul>
-    <script>
-        $(document).ready(function() {
-            collapsed: true,
-            $("#browser").treeview(); // Initialize treeview
-        });
-    </script>
+    <ul id="browser" class="filetree"></ul>
 </body>
 </html>

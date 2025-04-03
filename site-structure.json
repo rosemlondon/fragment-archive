@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Home",
+    "url": "/index.html",
+    "children": [
+      { "title": "Web Artefacts", "url": "/web-artefacts.html" },
+      { "title": "JPGs", "url": "/jpgs.html" },
+      { "title": "PDFs", "url": "/pdfs.html" }
+    ]
+  },
+  {
+    "title": "Web Artefacts",
+    "url": "/web-artefacts.html",
+    "children": [
+      { "title": "Nested Folder 1", "url": "/web-artefacts/nested1.html" },
+      { "title": "Nested Folder 2", "url": "/web-artefacts/nested2.html" }
+    ]
+  },
+  {
+    "title": "JPGs",
+    "url": "/jpgs.html",
+    "children": [
+      { "title": "JPG File 1", "url": "/jpgs/file1.html" },
+      { "title": "JPG File 2", "url": "/jpgs/file2.html" }
+    ]
+  }
+]
