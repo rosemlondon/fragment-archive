@@ -7,18 +7,6 @@ body {
     overflow: hidden;
 }
 
-ul.breadcrumb li {
-    display: inline;
-    font-size: 18px;
-  }
-
-  ul.breadcrumb li+li:before {
-    padding: 8px;
-    color: black;
-    content: "/\00a0";
-  }
-
-/* Main container for sidebar and content */
 .container {
     display: flex;
     flex-direction: row; /* Align sidebar and content side-by-side */
@@ -26,7 +14,6 @@ ul.breadcrumb li {
     width: 100%; /* Full width of the page */
 }
 
-/* Content area */
 .content {
     flex: 1; /* Take up remaining space next to the sidebar */
     background-color: #fff;
@@ -36,7 +23,6 @@ ul.breadcrumb li {
     overflow-y: auto; /* Scroll if content exceeds height */
 }
 
-/* Sidebar */
 .sidebar {
     width: 300px; /* Fixed width */
     background-color: #f4f4f4; /* Light background color for sidebar */
@@ -45,7 +31,6 @@ ul.breadcrumb li {
     overflow-y: auto; /* Allow scrolling in sidebar if content is tall */
 }
 
-/* General grid container styling */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
@@ -53,8 +38,7 @@ ul.breadcrumb li {
     width: 100%; /* Full-width container */
 }
 
-/* Grid items styling */
-.grid-column {
+.category {
     position: relative;
     display: flex;
     flex-direction: column; /* Stack image and title vertically */
@@ -67,25 +51,32 @@ ul.breadcrumb li {
     height: 300px; /* Fixed height for all items */
 }
 
-/* Image container */
-.grid-column img {
-    width: 100%; /* Fill the width of the container */
-    height: calc(100% - 40px); /* Deduct space for the title (adjust 40px as needed) */
-    object-fit: cover; /* Crop image while preserving aspect ratio */
-    flex-shrink: 0; /* Prevent image from shrinking */
-    display: block; /* Remove inline spacing issues */
-    margin: 0; /* Remove unwanted margins */
+.grid-column img,
+as-dithered-image {
+    width: 100%;
+    height: calc(100% - 40px);
+    display: block;
+    object-fit: cover; /* ✅ Crops while preserving aspect ratio */
+    object-position: center; /* ✅ Keeps it centered */
     filter: grayscale();
 }
 
-/* Invert color on hover */
-img:hover {
-    filter: grayscale(100%) invert(100%) contrast(30%);
+as-dithered-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
-.folder-tree {
-    width: 100%; /* Fit iframe to the sidebar's width */
-    height: 100%; /* Make it fill the sidebar height */
-    border: none; /* Remove iframe border */
-    overflow-y: auto; /* Allow scrolling inside the iframe */
+as-dithered-image:hover {
+    filter: invert(100%);
+}
+
+.title {
+    font-size: 1rem;
+    margin-top: auto;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
 }
