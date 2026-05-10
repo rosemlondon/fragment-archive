@@ -9,56 +9,79 @@ body {
 
 .container {
     display: flex;
-    flex-direction: row; /* Align sidebar and content side-by-side */
-    height: 100vh; /* Full viewport height */
-    width: 100%; /* Full width of the page */
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
 }
 
+/* ── Content area ── */
 .content {
-    flex: 1; /* Take up remaining space next to the sidebar */
-    background-color: #fff;
-    display: flex;
-    flex-direction: column; /* Allow vertical stacking in content */
-    padding: 20px;
-    overflow-y: auto; /* Scroll if content exceeds height */
+    flex: 1;
+    background-color: #f9f9f9; /* very light grey — lifts cards off the page */
+    padding: 0;
+    overflow-y: auto;
+    min-width: 0;
 }
 
-.sidebar {
-    width: 300px; /* Fixed width */
-    background-color: #f4f4f4; /* Light background color for sidebar */
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-    padding: 20px; /* Internal spacing */
-    overflow-y: auto; /* Allow scrolling in sidebar if content is tall */
-}
-
+/* ── Grid ── */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive columns */
-    gap: 16px; /* Spacing between grid items */
-    width: 100%; /* Full-width container */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    background-color: transparent;
+    margin: 20px;
+    width: calc(100% - 40px);
 }
 
+/* ── Category card ── */
 .category {
     position: relative;
     display: flex;
-    flex-direction: column; /* Stack image and title vertically */
-    justify-content: flex-start; /* Align content to the top */
-    align-items: center; /* Center content horizontally */
-    overflow: hidden; /* Prevent content overflow */
-    background-color: #f8f8f8; /* Background for consistency */
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    height: 300px; /* Fixed height for all items */
+    flex-direction: column;
+    background-color: #fff;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #d0d0d0;
 }
 
-.grid-column img,
+/* hide cards with broken image src */
+.category as-dithered-image:not([src]),
+.category as-dithered-image[src=""] {
+    display: none;
+}
+
+.category a.title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: #333;
+    background: #e8e8e8; /* mid grey — distinct from white card and light page bg */
+    border-top: 1px solid #d0d0d0;
+    z-index: 2;
+    letter-spacing: 0.03em;
+    transition: background 0.15s, color 0.15s;
+}
+
+.category:hover a.title {
+    background: #111;
+    color: #fff;
+}
+
+/* ── Dithered image fills card above title ── */
 as-dithered-image {
-    width: 100%;
-    height: calc(100% - 40px);
     display: block;
-    object-fit: cover; /* ✅ Crops while preserving aspect ratio */
-    object-position: center; /* ✅ Keeps it centered */
-    filter: grayscale();
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    transition: filter 0.25s ease;
+    filter: none;
 }
 
 as-dithered-image img {
@@ -69,14 +92,49 @@ as-dithered-image img {
     display: block;
 }
 
-as-dithered-image:hover {
-    filter: invert(100%);
+.category:hover as-dithered-image {
+    filter: invert(1);
 }
 
-.title {
-    font-size: 1rem;
-    margin-top: auto;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
+/* ── Sidebar ── */
+.sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background-color: #e4e4e4; /* darkest grey — anchors the right edge */
+    border-left: 1px solid #c8c8c8;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    font-size: 0.8rem;
+}
+
+.sidebar p {
+    margin: 0 0 16px;
+    line-height: 1.5;
+    color: #444;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid #c0c0c0;
+    margin-top: 4px;
+}
+
+.sidebar nav a {
+    display: block;
+    padding: 8px 0;
+    border-bottom: 1px solid #c0c0c0;
+    text-decoration: none;
+    color: #111;
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    transition: padding-left 0.15s;
+}
+
+.sidebar nav a:hover {
+    padding-left: 6px;
 }
